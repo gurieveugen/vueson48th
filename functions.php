@@ -473,7 +473,7 @@ require_once 'includes/widget_latestnews.php';
 // =========================================================
 use Factory\Page;
 use Factory\PostType;
-use Factory\Metabox;
+use Factory\MetaBox;
 use Factory\Taxonomy;
 use Factory\Controls\ControlsCollection;
 use Factory\Controls\Text;
@@ -488,7 +488,7 @@ use Factory\Controls\Table;
 add_action('widgets_init', 'widgetsInit');
 
 // =========================================================
-// CUSTOM PAGE
+// THEME SETTINGS [PAGE]
 // =========================================================
 $theme_settings = new Page('Theme settings', array(
 	'icon_code' => 'f085'
@@ -496,11 +496,23 @@ $theme_settings = new Page('Theme settings', array(
 
 $section_home_page_ctrls = new ControlsCollection(array(
 	new Textarea('Title'),
-	new Textarea('Sub title')	
+	new Textarea('Sub title'),
+	new Text('Facebook link'),
+	new Text('Phone')
 	));
 
 $theme_settings->addControls('Home page', $section_home_page_ctrls);
 $theme_settings->initPage();
+
+$GLOBALS['theme_settings'] = $theme_settings;
+
+// =========================================================
+// ADDITIONAL INFO [MATA BOX]
+// =========================================================
+$additional_options_ctrls = new ControlsCollection(array(
+	new Textarea('Text on the picture', array('name' => 'text_pic'))
+	));
+$additional_options = new MetaBox('page', 'Additional options', $additional_options_ctrls);
 /**
  * Register widgets
  */

@@ -10,13 +10,15 @@
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */
+$options = $GLOBALS['theme_settings']->getAll();
+extract($options);
 get_header(); ?>
 		<?php /* The loop */ ?>
 		<?php while ( have_posts() ) : the_post(); ?>
 		<section class="mid-section cf">
 		  <header>
-			  <h2>Modern Elegance Meets Marsh-Front Living.<br>Redefining Coastal Living.</h2>
-				<h6>Mozingo & Wallace ARCHITECTS</h6>
+			  <h2><?php echo $theme_settings_title; ?></h2>
+				<h6><?php echo $theme_settings_sub_title; ?></h6>
 			</header>
 		</section>
 

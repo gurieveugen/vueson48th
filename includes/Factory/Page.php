@@ -116,7 +116,18 @@ class Page extends Factory{
      */
     public function getAll()
     {
-        return get_option($this->options['menu_slug']);
+        $options = array();
+        foreach ($this->controls as $section) 
+        {
+            $ctrls = $section['controls']->getControls();
+            foreach ($ctrls as $ctrl) 
+            {   
+                $tmp = clone $ctrl;
+                $tmp->name = $this->formatControlName($tmp->name);
+                $options[$tmp->name] = get_option($tmp->name);             
+            }
+        }
+        return $options;
     }
 
 
