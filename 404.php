@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-		<articlee id="post-<?php the_ID(); ?>" class="page-post cf">
+		<article class="page-post site-content cf">
 		  <header class="tit-page">
 			  <h1><?php _e( 'Not found', 'twentythirteen' ); ?></h1>
 			</header>

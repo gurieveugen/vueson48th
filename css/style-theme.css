@@ -1417,6 +1417,7 @@ footer.entry-meta {
  */
 
 .archive-header {
+  padding:0px 27px 0px 27px;
 	background-color: #e8e5ce;
 }
 
@@ -1448,6 +1449,7 @@ footer.entry-meta {
  */
 
 .page-header {
+  padding:0px 27px 0px 27px;
 	background-color: #e8e5ce;
 }
 
@@ -2000,15 +2002,15 @@ footer.entry-meta {
 /* Buttons */
 .comment-respond input[type="submit"] 
 {
-	height:25px;
-	padding:0px 10px 0px 10px;
-	border:1px solid #535152;
-	background:#e06428;
-	font-family:'Ledger', serif;
-	font-size:12px;
-	font-weight:400;
-	line-height:25px;
-	color:#120c0f;
+	padding:8px 10px 8px 10px;
+	border:1px solid #262324;
+	background:#938476;
+	font-family:'Roboto', sans-serif;
+	font-size:14px;
+	font-weight:700;
+	line-height:14px;
+	text-transform:uppercase;
+	color:#FFFFFF;
 	cursor:pointer;
 }
 
@@ -2016,6 +2018,6 @@ footer.entry-meta {
 .comment-respond input[type="submit"]:focus,
 .comment-respond input[type="submit"]:active
 {
-  background:#d3d3c2;
-	color:#221d1f;
+  background:#938476;
+	color:#FFFFFF;
 }
