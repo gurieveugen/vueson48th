@@ -585,7 +585,14 @@ div.widget-footer-form label
 	border-right:2px solid #b4aea9;
 }
 
-div.widget-footer-form input.txt
+div.widget-footer-form span.wpcf7-form-control-wrap 
+{
+  display:block;
+  float:left;
+	position:relative;
+}
+
+div.widget-footer-form span.wpcf7-form-control-wrap input
 {
   width:195px;
   height:30px;
@@ -599,12 +606,27 @@ div.widget-footer-form input.txt
 	color:#c4beb9;
 }
 
-div.widget-footer-form div.big input.txt
+div.widget-footer-form div.big span.wpcf7-form-control-wrap input
 {
   width:400px;
 }
 
-div.widget-footer-form input.submit
+div.widget-footer-form span.wpcf7-not-valid-tip
+{
+  height:30px;
+	padding:0px 10px 0px 10px;
+  font-family:'Roboto Condensed', sans-serif;
+	font-size:13px;
+	font-weight:400;
+	line-height:30px;
+	text-transform:none;
+	color:#990000;
+  position:absolute;
+  top:0px;
+  left:0px;
+}
+
+div.widget-footer-form div.submit input
 {
   width:61px;
 	height:34px;
@@ -622,6 +644,16 @@ div.widget-footer-form input.submit
 	color:#6e6053;
 	cursor:pointer;
 	position:relative;
+}
+
+div.widget-footer-form div.wpcf7-response-output
+{
+  margin:9px 24px 0px 0px;
+}
+
+div.widget-footer-form img.ajax-loader
+{
+  display:none;
 }
 
 div.copyright-box
@@ -1446,7 +1478,7 @@ ul.cat-gallery
 	font-weight:700;
 	line-height:15px;
 	text-transform:uppercase;
-	color:#d4aa46;
+	color:#877767;
 }
 
 ul.cat-gallery li
@@ -1532,6 +1564,12 @@ nav.pagenav-gallery a.next
 {
   margin:2px 0px 0px 8px;
 	background:-87px -42px url(images/sprite.png) no-repeat;
+}
+
+nav.pagenav-gallery span.prev,
+nav.pagenav-gallery span.next
+{
+  display:none;
 }
 /* ------- end gallery page ------- */
 

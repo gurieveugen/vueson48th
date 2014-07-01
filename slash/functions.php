@@ -464,10 +464,6 @@ add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 // /_/  /_/   /_/   \____/\____/_____/_____/   
 
 // =========================================================
-// CONSTANTS
-// =========================================================
-define('TDU', get_bloginfo('template_url'));
-// =========================================================
 // REQUIRE
 // =========================================================
 require_once 'includes/helper.php';                                            
@@ -486,16 +482,12 @@ use Factory\Controls\Textarea;
 use Factory\Controls\Select;
 use Factory\Controls\Checkbox;
 use Factory\Controls\Table;
-use Factory\Controls\Image;
 
 // =========================================================
 // HOOKS
 // =========================================================
 add_action('widgets_init', 'widgetsInit');
-add_action('wp_enqueue_scripts', 'scriptsMethod');
 add_image_size('gallery-photo', 220, 206, true);
-add_image_size('gallery-header-image', 861, 9999, true);
-add_filter( 'image_size_names_choose', 'imageSizeNamesChose' );
 
 // =========================================================
 // THEME SETTINGS [PAGE]
@@ -509,11 +501,7 @@ $section_home_page_ctrls = new ControlsCollection(array(
 	new Textarea('Sub title'),
 	new Text('Facebook link'),
 	new Text('Phone'),
-	new Text('Register for a priority reservation now!', array('name' => 'priority_reservation')),
-	new Text('Photos per page'),
-	new Text('Site by'),
-	new Text('Site by url'),
-	new Textarea('Copyright text')
+	new Text('Register for a priority reservation now!', array('name' => 'priority_reservation'))
 	));
 
 $theme_settings->addControls('Home page', $section_home_page_ctrls);
@@ -536,39 +524,14 @@ $photo = new PostType('photo', array('icon_code' => 'f03e'));
 // =========================================================
 // GALLERTY TAXONOMY
 // =========================================================
-$gallery_controls = new ControlsCollection(array(
-	new Textarea('Text on the picture', array('name' => 'text_pic')),
-	new Image('Header image')
-	));
-$gallery = new Taxonomy('photo', 'Gallery', array('label' => 'Galleries'), $gallery_controls);
-$GLOBALS['gallery_tax'] = $gallery;
-
-function scriptsMethod() 
-{
-	wp_enqueue_style('fancybox', TDU.'/fancybox/source/jquery.fancybox.css?v=2.1.5');
-	wp_enqueue_style('fancybox-buttons', TDU.'/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5');
-	wp_enqueue_style('fancybox-thumbs', TDU.'/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7');
-	wp_enqueue_style('flexslider', TDU.'/css/flexslider.css');
-
-	wp_enqueue_script('main', TDU.'/js/main.js', array('jquery'));
-	wp_enqueue_script('flexslider', TDU.'/js/jquery.flexslider-min.js', array('jquery'));
-	wp_enqueue_script('mousewheel', TDU.'/fancybox/lib/jquery.mousewheel-3.0.6.pack.js', array('jquery'));
-	wp_enqueue_script('fancybox', TDU.'/fancybox/source/jquery.fancybox.pack.js?v=2.1.5', array('jquery'));
-	wp_enqueue_script('fancybox-buttons', TDU.'/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5', array('jquery'));
-	wp_enqueue_script('fancybox-media', TDU.'/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6', array('jquery'));
-	wp_enqueue_script('fancybox-thumbs', TDU.'/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7', array('jquery'));
-}
-
-/**
- * Add image sizes to "Upload photo modal"
- * @param  array $image_sizes --- image sizes array
- * @return array              --- image sizes array with my custom sizes
- */
-function imageSizeNamesChose($image_sizes) 
-{
-	$image_sizes['gallery-header-image'] = __('Gallery header image');
-	return $image_sizes;
-}
+$gallery = new Taxonomy('photo', 'Gallery', array('label' => 'Galleries'));
+// =========================================================
+// GENERATE LOREM POSTS
+// ========================================================= 
+$GLOBALS['lorem'] = new LoremPosts(array('title' => 'Construction '));
+//$GLOBALS['lorem']->start_index = 6;
+//$GLOBALS['lorem']->generatePosts(5, 'photo', 1, 'gallery');
+$GLOBALS['lorem']->deletaAllPosts('photo');
 
 /**
  * Register widgets
@@ -591,169 +554,6 @@ function fillArray($fields, $arr)
 	foreach ($fields as &$field) 
 	{
 		$out[$field] = isset($arr[$field]) ? $arr[$field] : '';
-	}
-	return $out;
-}
-
-/**
- * Get gallery terms
- * @return string --- html code
- */
-function getGalleryTerms()
-{
-	$taxonomies = array('gallery');
-
-	$args = array(
-	    'orderby'       => 'name', 
-	    'order'         => 'ASC',
-	    'hide_empty'    => true, 
-	    'exclude'       => array(), 
-	    'exclude_tree'  => array(), 
-	    'include'       => array(),
-	    'number'        => '', 
-	    'fields'        => 'all', 
-	    'slug'          => '', 
-	    'parent'         => '',
-	    'hierarchical'  => true, 
-	    'child_of'      => 0, 
-	    'get'           => '', 
-	    'name__like'    => '',
-	    'pad_counts'    => false, 
-	    'offset'        => '', 
-	    'search'        => '', 
-	    'cache_domain'  => 'core'); 
-	$terms = get_terms($taxonomies, $args);
-	$out   = '';
-	$qo    = get_queried_object();
-
-	if($terms)
-	{
-		$out.= '<ul class="cat-gallery">';		
-		foreach ($terms as $term) 
-		{
-			if($qo->term_id == $term->term_id)
-			{
-				$out.= sprintf(
-					'<li><span>%1$s (%2$s)</span></li>', 					
-					$term->name, 
-					$term->count);	
-			}
-			else
-			{
-				$out.= sprintf(
-					'<li><a href="%1$s">%2$s (%3$s)</a></li>', 
-					get_term_link($term, $term->taxonomy), 
-					$term->name, 
-					$term->count);
-			}
-						
-		}
-		$out.= '</ul>';
-	}
-	return $out;
-}
-
-/**
- * Get photos to gallery page
- * @return string --- html code
- */
-function getPhotos($page = 1)
-{		
-	$options = $GLOBALS['theme_settings']->getAll();
-	extract($options);
-	
-	$page--;
-	$offset = intval($theme_settings_photos_per_page)*$page;
-	$args = array(
-		'posts_per_page'   => $theme_settings_photos_per_page,
-		'offset'           => $offset,
-		'category'         => '',
-		'orderby'          => 'post_date',
-		'order'            => 'DESC',
-		'include'          => '',
-		'exclude'          => '',
-		'meta_key'         => '',
-		'meta_value'       => '',
-		'post_type'        => 'photo',
-		'post_mime_type'   => '',
-		'post_parent'      => '',
-		'post_status'      => 'publish',
-		'suppress_filters' => true );
-	$photos = get_posts($args);
-	$out    = '';
-	if($photos)
-	{
-		$out.= '<ul class="list-images cf">';
-		foreach ($photos as $photo) 
-		{
-			if(has_post_thumbnail($photo->ID))
-			{
-				$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($photo->ID), 'full');
-				$url   = $thumb['0'];
-				$out  .= sprintf(
-					'<li><figure><a href="%s" class="fancybox" rel="group">%s</a></figure></li>',
-					$url,
-					get_the_post_thumbnail($photo->ID, 'gallery-photo'));				
-			} 
-			
-		}
-		$out.= '</ul>';
-	}
-	return $out;
-}
-
-function getGalleryNavs($page = 1)
-{
-	$options = $GLOBALS['theme_settings']->getAll();
-	extract($options);
-
-	$qo = get_queried_object();
-	$pages = ceil($qo->count/$theme_settings_photos_per_page);
-	$out = '';
-
-	if($pages)
-	{
-		$out.= '<nav class="pagenav-gallery cf">';
-		// =========================================================
-		// PREV
-		// =========================================================
-		if($page > 1)
-		{
-			$out.= sprintf('<a href="%s" class="prev">prev</a>', get_pagenum_link($page-1));
-		}
-		else
-		{
-			$out.= '<span class="prev">prev</span>';
-		}
-
-		for ($i=1; $i <= $pages; $i++) 
-		{ 
-			// =========================================================
-			// NUMBERS
-			// =========================================================
-			if($page == $i)
-			{
-				$out.= sprintf('<span>%02d</span>', $i);
-			}
-			else
-			{
-				$out.= sprintf('<a href="%s">%02d</a>', get_pagenum_link($i), $i);
-			}
-			
-			
-		}
-		// =========================================================
-		// NEXT
-		// =========================================================
-		if($page < $pages)
-		{
-			$out.= sprintf('<a class="next" href="%s">next</a>', get_pagenum_link($page+1));
-		}
-		else
-		{
-			$out.= '<span class="next">next</span>';
-		}
-		$out.= '</nav>';
 	}
 	return $out;
 }

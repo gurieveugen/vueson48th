@@ -1,0 +1,15 @@
+[01-Jul-2014 05:32:34 America/New_York] PHP Fatal error:  Namespace declaration statement has to be the very first statement in the script in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 5
+[01-Jul-2014 05:33:27 America/New_York] PHP Fatal error:  Call to undefined function wp_insert_post() in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 156
+[01-Jul-2014 09:34:06 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:34:11 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:34:17 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:34:33 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:34:47 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/vueson48/public_html/wp-includes/class-wp-image-editor-gd.php on line 180
+[01-Jul-2014 09:36:40 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:36:41 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:36:56 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:37:03 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:37:16 UTC] PHP Notice:  Undefined variable: terms in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 158
+[01-Jul-2014 09:37:17 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/vueson48/public_html/wp-includes/class-wp-image-editor-gd.php on line 180
+[01-Jul-2014 09:52:23 UTC] PHP Warning:  file_get_contents(http://www.gurievcreative.com/images/12239431573_6c92e08083_o.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 219
