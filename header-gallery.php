@@ -78,26 +78,11 @@ extract($options);
 		</div>
 		<?php } else {?>
     <figure class="header-image cf">
-		  <?php if ( has_post_thumbnail() && ! post_password_required() ) : ?>
-				<?php the_post_thumbnail(); ?>
-			<?php else : ?>
-				 <img src="<?php echo get_template_directory_uri(); ?>/images/uploade/header_floorplans.jpg" alt=" ">
-			<?php endif; ?>
-			<?php
-				if(is_page())
-				{
-					$text_pic = get_post_meta($post->ID, 'page_text_pic', true);
-					?>
-					<figcaption><p><?php echo $text_pic; ?></p></figcaption>
-					<?php		
-				}
-				else
-				{
-					?>
-					<figcaption><p>Open floorplans complimented by the best views in Myrtle Beach.</p></figcaption>
-					<?php
-				}
-			?>
-			
-		</figure>
-		<?php } ?>
+		<?php		
+		$qo   = get_queried_object();
+		$term = $GLOBALS['gallery_tax']->getTerm($qo->term_id);		
+		?>	
+		<img src="<?php echo $term->meta['photo_header_image']; ?>" alt="<?php echo $term->name; ?>">
+		<figcaption><p><?php echo $term->meta['photo_text_pic']; ?></p></figcaption>
+	</figure>
+	<?php } ?>

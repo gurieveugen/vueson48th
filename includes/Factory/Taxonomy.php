@@ -49,15 +49,20 @@ class Taxonomy extends Factory{
 
 		// =========================================================
 		// HOOKS
-		// =========================================================
-		if($this->controls->getCount() > 0)
-		{			
-			add_action($this->name.'_edit_form_fields', array(&$this, 'editFormFields')); 
-			add_action($this->name.'_add_form_fields', array(&$this, 'addFormFields'));
-			add_action('edited_'.$this->name, array(&$this, 'save'));
-    		add_action('created_'.$this->name, array(&$this, 'save'));
-    		add_filter('deleted_term_taxonomy', array(&$this, 'delete'));
-		}
+		// =========================================================        
+        if(is_a($this->controls, 'Factory\Controls\ControlsCollection'))
+        {
+
+            if($this->controls->getCount() > 0)
+            {           
+                add_action($this->name.'_edit_form_fields', array(&$this, 'editFormFields')); 
+                add_action($this->name.'_add_form_fields', array(&$this, 'addFormFields'));
+                add_action('edited_'.$this->name, array(&$this, 'save'));
+                add_action('created_'.$this->name, array(&$this, 'save'));
+                add_filter('deleted_term_taxonomy', array(&$this, 'delete'));
+            }    
+        }
+		
 		add_action('admin_enqueue_scripts', array(&$this, 'adminScriptsAndStyles')); 
 	}
 
@@ -213,5 +218,26 @@ class Taxonomy extends Factory{
     		}
     	}
     	return $terms;
+    }
+
+    /**
+     * Get single term
+     * @param  integer $id --- term id
+     * @return mixed       --- term [object] | false [boolean]
+     */
+    public function getTerm($id)
+    {
+        $term     = get_term($id, $this->name);
+        $controls = $this->controls->getControls(); 
+        if($term)
+        {
+            foreach ($controls as $ctrl) 
+            {           
+                $tmp       = clone $ctrl;
+                $tmp->name = $this->formatControlName($tmp->name);
+                $term->meta[$tmp->name] = get_option(sprintf('tax_%s_%s', $term->term_id,  $tmp->name));
+            }   
+        }
+        return $term;
     }
 }
