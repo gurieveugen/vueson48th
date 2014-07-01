@@ -15,25 +15,25 @@ namespace Factory;
 // =========================================================
 
 class MetaBox extends Factory{
-	//                                       __  _          
-	//     ____  ____  _________  ___  _____/ /_(_)__  _____
-	//    / __ \/ __ \/ ___/ __ \/ _ \/ ___/ __/ / _ \/ ___/
-	//   / /_/ / /_/ / /  / /_/ /  __/ /  / /_/ /  __(__  ) 
-	//  / .___/\____/_/  / .___/\___/_/   \__/_/\___/____/  
-	// /_/              /_/                                 
-	private $title;
-	private $controls;
-	private $name;
-	private $context;
+    //                                       __  _          
+    //     ____  ____  _________  ___  _____/ /_(_)__  _____
+    //    / __ \/ __ \/ ___/ __ \/ _ \/ ___/ __/ / _ \/ ___/
+    //   / /_/ / /_/ / /  / /_/ /  __/ /  / /_/ /  __(__  ) 
+    //  / .___/\____/_/  / .___/\___/_/   \__/_/\___/____/  
+    // /_/              /_/                                 
+    private $title;
+    private $controls;
+    private $name;
+    private $context;
 
-	//                    __  __              __    
-	//    ____ ___  ___  / /_/ /_  ____  ____/ /____
-	//   / __ `__ \/ _ \/ __/ __ \/ __ \/ __  / ___/
-	//  / / / / / /  __/ /_/ / / / /_/ / /_/ (__  ) 
-	// /_/ /_/ /_/\___/\__/_/ /_/\____/\__,_/____/  
-	function __construct($post_type, $title, $controls = null, $name = null, $context = null)
-	{
-        $this->post_type = $post_type;		
+    //                    __  __              __    
+    //    ____ ___  ___  / /_/ /_  ____  ____/ /____
+    //   / __ `__ \/ _ \/ __/ __ \/ __ \/ __  / ___/
+    //  / / / / / /  __/ /_/ / / / /_/ / /_/ (__  ) 
+    // /_/ /_/ /_/\___/\__/_/ /_/\____/\__,_/____/  
+    function __construct($post_type, $title, $controls = null, $name = null, $context = null)
+    {
+        $this->post_type = $post_type;      
         $this->title     = $title;
         $this->controls  = $controls;      
         $this->name      = $name ? $name : $this->formatName($title);
@@ -44,7 +44,7 @@ class MetaBox extends Factory{
         // HOOKS
         // =========================================================
         add_action('post_edit_form_tag', array(&$this, 'postEditFormTag'));  
-	}
+    }
 
     /**
      * Add tag to form
@@ -54,13 +54,13 @@ class MetaBox extends Factory{
         echo ' enctype="multipart/form-data"';
     }
 
-	/**
-	 * Configure meta box	 
-	 */
-	public function configureMetaBox()
+    /**
+     * Configure meta box    
+     */
+    public function configureMetaBox()
     {   
-    	add_action('save_post', array(&$this, 'savePost'));
-    	$id = $this->name;        
+        add_action('save_post', array(&$this, 'savePost'));
+        $id = $this->name;        
         add_meta_box($id, $this->title, array(&$this, 'renderMetaBox'), $this->post_type, $this->context, 'default');
 
         add_filter('manage_edit-'.$this->post_type.'_columns', array(&$this, 'columnThumb'));   
@@ -97,12 +97,12 @@ class MetaBox extends Factory{
     public function columnThumbShow($column, $post_id)
     {  
         $display_types = array(
-			"text"     => "%s",
-			"email"    => "%s",
-			"textarea" => "%s",
-			"checkbox" => '<i class="fa %s"></i>',
-			"select"   => '%s',
-			"file"     => "%s",
+            "text"     => "%s",
+            "email"    => "%s",
+            "textarea" => "%s",
+            "checkbox" => '<i class="fa %s"></i>',
+            "select"   => '%s',
+            "file"     => "%s",
             'table'    => "%s");
         $ctrl = $this->controls->getControlByName($column);             
         if($ctrl)
