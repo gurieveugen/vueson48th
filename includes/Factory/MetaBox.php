@@ -80,7 +80,9 @@ class MetaBox extends Factory{
         {
             foreach ($ctrls as $ctrl) 
             {
-                $arr[$ctrl->name] = $ctrl->title;
+                $tmp = clone $ctrl;
+                $tmp->name = $this->formatName($tmp->name);
+                $arr[$tmp->name] = $tmp->title;
             }
         }        
         
@@ -93,7 +95,7 @@ class MetaBox extends Factory{
      * @param  integer $post_id           
      */
     public function columnThumbShow($column, $post_id)
-    {          
+    {  
         $display_types = array(
 			"text"     => "%s",
 			"email"    => "%s",
@@ -102,13 +104,16 @@ class MetaBox extends Factory{
 			"select"   => '%s',
 			"file"     => "%s",
             'table'    => "%s");
-        $ctrl = $this->controls->getControlByName($column);
+        $ctrl = $this->controls->getControlByName($column);             
         if($ctrl)
-        {
+        {            
             $meta = get_post_meta($post_id, $this->formatControlName($column), true);
-            $out  = is_array($meta) ? sprintf('items (%s)', count($meta)) : $meta; 
-            $out  = $ctrl->getType() == 'checkbox' ? $this->circleCheckbox($meta) : $meta; 
-            printf($display_types[$ctrl->getType()], $out);
+            $out  = is_array($meta) ? sprintf('items (%s)', count($meta)) : $meta;            
+            $type = explode('\\', $ctrl->getType());            
+            $type = end($type);      
+            $type = strtolower($type);     
+            $out  = $type == 'checkbox' ? $this->circleCheckbox($meta) : $meta; 
+            printf($display_types[$type], $out);
         }
     }
 

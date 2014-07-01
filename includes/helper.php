@@ -85,10 +85,13 @@ function generateTableRows($arr, $args = array())
 	$out  = '';
 
 	extract($args);
+
 	foreach ($arr as $row) 
-	{
-		$our.= sprintf('<%s>', $row_container);		
-		foreach ($row as $col) 
+	{	
+		$class = isset($row['class']) ? $row['class'] : '';		
+		$out.= sprintf('<%1$s class="%2$s">', $row_container, $class);	
+			
+		foreach ($row['fields'] as $col) 
 		{
 			$out.= sprintf('<%1$s>%2$s</%1$s>', $col_container, $col);
 		}
@@ -173,3 +176,30 @@ function elapsedTime($time)
     return $res;
 }
 
+/**
+ * Fill array
+ * @param  array $fields --- fields array
+ * @param  array $arr    --- array with values
+ * @return mixed         --- filled [array] | false [boolean]
+ */
+function arrayFill($fields, $arr)
+{
+	if(!$fields) return false;
+	foreach ($fields as $field) 
+	{
+		$new_arr[$field] = isset($arr[$field]) ? $arr[$field] : '';
+	}
+	return $new_arr;
+}
+
+
+function isValidDateTime($dateTime)
+{
+    if (preg_match("/^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/", $dateTime, $matches)) {
+        if (checkdate($matches[2], $matches[3], $matches[1])) {
+            return true;
+        }
+    }
+
+    return false;
+}
