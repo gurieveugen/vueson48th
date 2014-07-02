@@ -52,7 +52,7 @@ class Page extends Factory{
             $ctrls = $section['controls']->getControls();
             foreach ($ctrls as $ctrl) 
             {                
-                register_setting($this->formatControlName($section['name']), $this->formatControlName($ctrl->name), array(&$this, 'sanitize'));
+                register_setting($this->post_type, $this->formatControlName($ctrl->name), array(&$this, 'sanitize'));
             }
         }
     }
@@ -63,7 +63,7 @@ class Page extends Factory{
      * @return mixed
      */
     public function sanitize($input)
-    {
+    {     
         return $input;
     }
 
@@ -141,9 +141,10 @@ class Page extends Factory{
         <div class="wrap">                         
             <form method="post" action="options.php">
             <?php                        
+                settings_fields($this->post_type); 
                 foreach ($this->controls as $section) 
                 {
-                    settings_fields($this->formatControlName($section['name']));       
+                          
                     printf('<h2>%s</h2>', $section['title']);
                     $ctrls = $section['controls']->getControls();
                     if($ctrls)
@@ -153,7 +154,7 @@ class Page extends Factory{
                         {
                             $tmp       = clone $ctrl;
                             $tmp->name = $this->formatControlName($tmp->name);              
-                            $value     = get_option($tmp->name);           
+                            $value     = get_option($tmp->name);                             
                             ?>
                             <tr class="form-field">
                                 <th scope="row"><label for="<?php echo $tmp->name; ?>"><?php _e($tmp->title); ?></label></th>

@@ -54,28 +54,8 @@ extract($options);
   <!-- end header -->
 <!-- content -->
   <section id="content-section" class="cf">  
-  <?php if(is_home()){?>
-    <div class="slider-home cf">
-		  <aside>
-			  <ul>
-				  <li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/slide_01.jpg" alt=" "></a></figure></li>
-					<li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/slide_01.jpg" alt=" "></a></figure></li>
-					<li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/slide_01.jpg" alt=" "></a></figure></li>
-				</ul>
-			</aside>
-
-			<div class="bottom-slider">
-			  <nav>
-			    <ol>
-				    <li class="active"><a href="#">1</a></li>
-					  <li><a href="#">2</a></li>
-					  <li><a href="#">3</a></li>
-				  </ol>
-				</nav>
-
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-			</div>
-		</div>
+  <?php if(is_front_page()){?>
+  	<?php echo do_shortcode('[home_slider posts_per_page="'.$theme_settings_home_slides_count.'" slider="12"]Some text[/home_slider]' ); ?>    
 		<?php } else {?>
     <figure class="header-image cf">
 		  <?php if ( has_post_thumbnail() && ! post_password_required() ) : ?>

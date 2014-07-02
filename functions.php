@@ -494,8 +494,13 @@ use Factory\Controls\Image;
 add_action('widgets_init', 'widgetsInit');
 add_action('wp_enqueue_scripts', 'scriptsMethod');
 add_image_size('gallery-photo', 220, 206, true);
+add_image_size('life-image', 216, 132, true);
 add_image_size('gallery-header-image', 861, 9999, true);
-add_filter( 'image_size_names_choose', 'imageSizeNamesChose' );
+add_image_size('slider-front-page', 861, 331, true);
+add_image_size('slider-design-page', 418, 279, true);
+add_filter('image_size_names_choose', 'imageSizeNamesChose');
+add_shortcode('design_slider' , 'displayDesignSlider');
+add_shortcode('home_slider' , 'displayHomeSlider');
 
 // =========================================================
 // THEME SETTINGS [PAGE]
@@ -504,19 +509,34 @@ $theme_settings = new Page('Theme settings', array(
 	'icon_code' => 'f085'
 	));
 
-$section_home_page_ctrls = new ControlsCollection(array(
+$section_home_page_ctrls = new ControlsCollection(array(	
 	new Textarea('Title'),
 	new Textarea('Sub title'),
 	new Text('Facebook link'),
 	new Text('Phone'),
-	new Text('Register for a priority reservation now!', array('name' => 'priority_reservation')),
-	new Text('Photos per page'),
+	new Text('Register for a priority reservation now!', array('name' => 'priority_reservation')),	
 	new Text('Site by'),
-	new Text('Site by url'),
-	new Textarea('Copyright text')
+	new Text('Site by url'),		
+	new Textarea('Copyright text'),
+	new Checkbox('Enable slide show', array('name' => 'home_slideshow')),
+	new Text('Slide show speed (seconds)', array('name' => 'home_slideshow_speed')),
+	new Text('Slides count', array('name' => 'home_slides_count'))
+	));
+
+$section_gallery_page_ctrls = new ControlsCollection(array(
+	new Text('Photos per page')
+	));
+
+$section_design_page_ctrls = new ControlsCollection(array(
+	new Checkbox('Enable slide show', array('name' => 'design_slideshow')),
+	new Text('Slide show speed (seconds)', array('name' => 'design_slideshow_speed')),
+	new Text('Slides count', array('name' => 'design_slides_count')),
+	new Textarea('slogan')
 	));
 
 $theme_settings->addControls('Home page', $section_home_page_ctrls);
+$theme_settings->addControls('Gallery page', $section_gallery_page_ctrls);
+$theme_settings->addControls('Design page', $section_design_page_ctrls);
 $theme_settings->initPage();
 
 $GLOBALS['theme_settings'] = $theme_settings;
@@ -530,9 +550,35 @@ $additional_options_ctrls = new ControlsCollection(array(
 $additional_options = new MetaBox('page', 'Additional options', $additional_options_ctrls);
 
 // =========================================================
+// FLOOR PLAN [META BOX]
+// =========================================================
+// $floorplan_controls = new ControlsCollection(array(
+// 	new Checkbox('Zoom'),
+// 	new Checkbox('Print'),
+// 	new Checkbox('Share'),
+// 	new Image('Floor plan')
+// 	));
+// $floorplan_metabox = new MetaBox('post', 'Floor Plan options', $floorplan_controls);
+// =========================================================
 // PHOTO POST TYPE
 // =========================================================
-$photo = new PostType('photo', array('icon_code' => 'f03e'));
+$photo = new PostType('photo', array('icon_code' => 'f083'));
+// =========================================================
+// SLIDE POST TYPE
+// =========================================================
+$slide = new PostType('slide', array('label' => 'Slider images', 'icon_code' => 'f03e'));
+// =========================================================
+// SLIDER TAXONOMY
+// =========================================================
+$slider = new Taxonomy('slide', 'Slider');
+// =========================================================
+// LIFEIMAGE POST TYPE
+// =========================================================
+$lifeimage = new PostType('lifeimage', array('label' => 'Life images', 'icon_code' => 'f118'));
+// =========================================================
+// LIFESTYLE TAXONOMY
+// =========================================================
+$lifestyle = new Taxonomy('lifeimage', 'Lifestyle');
 // =========================================================
 // GALLERTY TAXONOMY
 // =========================================================
@@ -543,6 +589,8 @@ $gallery_controls = new ControlsCollection(array(
 $gallery = new Taxonomy('photo', 'Gallery', array('label' => 'Galleries'), $gallery_controls);
 $GLOBALS['gallery_tax'] = $gallery;
 
+
+
 function scriptsMethod() 
 {
 	wp_enqueue_style('fancybox', TDU.'/fancybox/source/jquery.fancybox.css?v=2.1.5');
@@ -552,11 +600,15 @@ function scriptsMethod()
 
 	wp_enqueue_script('main', TDU.'/js/main.js', array('jquery'));
 	wp_enqueue_script('flexslider', TDU.'/js/jquery.flexslider-min.js', array('jquery'));
+	wp_enqueue_script('flexslider', TDU.'/js/jquery.flexslider-min.js', array('jquery'));
 	wp_enqueue_script('mousewheel', TDU.'/fancybox/lib/jquery.mousewheel-3.0.6.pack.js', array('jquery'));
 	wp_enqueue_script('fancybox', TDU.'/fancybox/source/jquery.fancybox.pack.js?v=2.1.5', array('jquery'));
 	wp_enqueue_script('fancybox-buttons', TDU.'/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5', array('jquery'));
 	wp_enqueue_script('fancybox-media', TDU.'/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6', array('jquery'));
 	wp_enqueue_script('fancybox-thumbs', TDU.'/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7', array('jquery'));
+	wp_enqueue_script('facebook', 'http://connect.facebook.net/en_US/all.js', array('jquery'));
+
+	wp_localize_script('main', 'defaults', array($GLOBALS['theme_settings']->getAll()));
 }
 
 /**
@@ -756,4 +808,261 @@ function getGalleryNavs($page = 1)
 		$out.= '</nav>';
 	}
 	return $out;
+}
+
+/**
+ * Get Lifestyle terms
+ * @return string --- html code
+ */
+function getLifestyleTerms()
+{
+	$taxonomies = array('lifestyle');
+
+	$args = array(
+	    'orderby'       => 'name', 
+	    'order'         => 'ASC',
+	    'hide_empty'    => true, 
+	    'exclude'       => array(), 
+	    'exclude_tree'  => array(), 
+	    'include'       => array(),
+	    'number'        => '', 
+	    'fields'        => 'all', 
+	    'slug'          => '', 
+	    'parent'         => '',
+	    'hierarchical'  => true, 
+	    'child_of'      => 0, 
+	    'get'           => '', 
+	    'name__like'    => '',
+	    'pad_counts'    => false, 
+	    'offset'        => '', 
+	    'search'        => '', 
+	    'cache_domain'  => 'core'); 
+	$terms = get_terms($taxonomies, $args);	
+
+	if($terms)
+	{		
+		foreach ($terms as $term) 
+		{
+			$args = array(
+				'posts_per_page'   => -1,
+				'offset'           => 0,
+				'lifestyle'        => $term->term_ID,
+				'orderby'          => 'post_date',
+				'order'            => 'DESC',
+				'include'          => '',
+				'exclude'          => '',
+				'meta_key'         => '',
+				'meta_value'       => '',
+				'post_type'        => 'lifeimage',
+				'post_mime_type'   => '',
+				'post_parent'      => '',
+				'post_status'      => 'publish',
+				'suppress_filters' => true);
+			$lifeimages = get_posts($args);			
+			?>
+			<article class="lifestyle-post cf">
+				<header class="tit-lifestyle"><h2><?php echo $term->name; ?></h2></header>
+
+				<div class="entry">
+					<p><?php echo $term->description; ?></p>
+				</div>
+
+				<footer class="slide-lifestyle cf">
+					<aside class="flexslider-carousel" id="<?php echo $term->slug.$term->term_id; ?>">
+						<ul class="slides">
+						<?php
+						foreach ($lifeimages as $li) 
+						{
+							if(has_post_thumbnail($li->ID))
+							{
+								$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($li->ID), 'full');
+								$url   = $thumb['0'];
+								?>
+								<li>
+									<figure>
+										<?php echo get_the_post_thumbnail($li->ID, 'life-image'); ?>
+										<a href="<?php echo $url; ?>" rel="<?php echo $term->slug.$term->term_id; ?>" class="more fancybox"><span>more</span></a>			
+									</figure>
+								</li>
+								<?php	
+							}
+						}
+						?>
+						</ul>
+					</aside>
+
+					<nav class="flexslider-controls">
+						<a href="prev" class="prev" data-id="<?php echo $term->slug.$term->term_id; ?>">prev</a>
+						<a href="next" class="next" data-id="<?php echo $term->slug.$term->term_id; ?>">next</a>
+					</nav>
+				</footer>
+			</article>
+			<?php			
+		}		
+	}	
+}
+
+/**
+ * Display design type slider [SHORTCODE]
+ * @return string --- html code
+ */
+function displayDesignSlider($atts)
+{
+	$defaults = array(
+		'posts_per_page'   => -1,
+		'offset'           => 0,
+		'slider'           => 12,
+		'orderby'          => 'post_date',
+		'order'            => 'DESC',
+		'include'          => '',
+		'exclude'          => '',
+		'meta_key'         => '',
+		'meta_value'       => '',
+		'post_type'        => 'slide',
+		'post_mime_type'   => '',
+		'post_parent'      => '',
+		'post_status'      => 'publish',
+		'suppress_filters' => true);
+	$args   = array_merge($defaults, $atts);
+	$args['tax_query'] = array(    
+		array(
+			'taxonomy'         => 'slider',
+			'field'            => 'id',
+			'terms'            => $args['slider'],
+			'include_children' => false)
+		);
+	unset($args['slider']);	
+	$slides = get_posts($args);	
+	$nav    = '';
+	$index  = 0;
+	if($slides)
+	{
+		ob_start();
+		?>
+		<div class="slider-design">
+			<aside>
+				<ul class="slides">
+		<?php
+		foreach ($slides as $slide) 
+		{
+			if(has_post_thumbnail($slide->ID))
+			{	
+				$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($slide->ID), 'full');
+				$url   = $thumb['0'];			
+				?>
+				<li>
+					<figure>
+						<a href="<?php echo $url; ?>" class="fancybox">
+							<?php echo get_the_post_thumbnail($slide->ID, 'slider-design-page'); ?>
+						</a>
+					</figure>
+					<a href="<?php echo $url; ?>" class="fancybox zoom">zoom</a>
+				</li>
+				<?php
+				$index++;
+				$nav.= sprintf('<li> <a href="#">%s</a> </li>', $index);
+			}
+			
+		}
+		?>
+				</ul>
+			</aside>
+
+			<nav class="slider-design-nav">
+				<ol>
+					<?php echo $nav; ?>
+				</ol>
+			</nav>
+		</div>
+		<?php
+		$var = ob_get_contents();
+	    ob_end_clean();
+	    return $var;
+	}
+	return '';
+}
+
+/**
+ * Display home type slider [SHORTCODE]
+ * @return string --- html code
+ */
+function displayHomeSlider($atts, $content)
+{
+	$defaults = array(
+		'posts_per_page'   => -1,
+		'offset'           => 0,
+		'slider'           => 12,
+		'orderby'          => 'post_date',
+		'order'            => 'DESC',
+		'include'          => '',
+		'exclude'          => '',
+		'meta_key'         => '',
+		'meta_value'       => '',
+		'post_type'        => 'slide',
+		'post_mime_type'   => '',
+		'post_parent'      => '',
+		'post_status'      => 'publish',
+		'suppress_filters' => true);
+	$args   = array_merge($defaults, $atts);
+	$args['tax_query'] = array(    
+		array(
+			'taxonomy'         => 'slider',
+			'field'            => 'id',
+			'terms'            => $args['slider'],
+			'include_children' => false)
+		);
+	unset($args['slider']);	
+	$slides = get_posts($args);	
+	$nav    = '';
+	$index  = 0;
+	if($slides)
+	{
+		ob_start();
+		?>
+		<div class="slider-home cf">
+			<aside>
+				<ul class="slides">
+		<?php
+		foreach ($slides as $slide) 
+		{
+			if(has_post_thumbnail($slide->ID))
+			{	
+				$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($slide->ID), 'full');
+				$url   = $thumb['0'];			
+				?>
+				<li>
+					<figure>
+						<a href="<?php echo $url; ?>" class="fancybox">
+							<?php echo get_the_post_thumbnail($slide->ID, 'slider-front-page'); ?>
+						</a>
+					</figure>					
+				</li>
+				<?php
+				$index++;
+				$nav.= sprintf('<li> <a href="#">%s</a> </li>', $index);
+			}
+			
+		}
+		?>
+				</ul>
+			</aside>
+			
+			<div class="bottom-slider">
+				<nav class="slider-design-nav">
+					<ol>
+						<?php echo $nav; ?>
+					</ol>
+				</nav>
+
+				<p>
+					<?php echo $content; ?>
+				</p>
+			</div>
+		</div>
+		<?php
+		$var = ob_get_contents();
+	    ob_end_clean();
+	    return $var;
+	}
+	return '';
 }
