@@ -55,7 +55,7 @@ extract($options);
 <!-- content -->
   <section id="content-section" class="cf">  
   <?php if(is_front_page()){?>
-  	<?php echo do_shortcode('[home_slider posts_per_page="'.$theme_settings_home_slides_count.'" slider="12"]Some text[/home_slider]' ); ?>    
+  	<?php echo do_shortcode('[home_slider posts_per_page="'.$theme_settings_home_slides_count.'" slider="12"]'.$theme_settings_slider_title.'[/home_slider]' ); ?>    
 		<?php } else {?>
     <figure class="header-image cf">
 		  <?php if ( has_post_thumbnail() && ! post_password_required() ) : ?>

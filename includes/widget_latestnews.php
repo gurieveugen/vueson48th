@@ -24,7 +24,7 @@ class LatestNews extends WP_Widget{
 
 		if ( !empty($instance['title']) ) echo $args['before_title'] . $instance['title'] . $args['after_title'];
 		
-		$args = array(
+		$options = array(
 			'posts_per_page'   => $count,
 			'offset'           => 0,
 			'category'         => $category->term_id,
@@ -39,7 +39,7 @@ class LatestNews extends WP_Widget{
 			'post_parent'      => '',
 			'post_status'      => 'publish',
 			'suppress_filters' => true );
-		$posts = get_posts($args);
+		$posts = get_posts($options);
 		echo '<ul>';
 		foreach ($posts as $p) 
 		{

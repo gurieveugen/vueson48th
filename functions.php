@@ -495,12 +495,14 @@ add_action('widgets_init', 'widgetsInit');
 add_action('wp_enqueue_scripts', 'scriptsMethod');
 add_image_size('gallery-photo', 220, 206, true);
 add_image_size('life-image', 216, 132, true);
+add_image_size('design-article-image', 275, 220, true);
 add_image_size('gallery-header-image', 861, 9999, true);
 add_image_size('slider-front-page', 861, 331, true);
 add_image_size('slider-design-page', 418, 279, true);
 add_filter('image_size_names_choose', 'imageSizeNamesChose');
 add_shortcode('design_slider' , 'displayDesignSlider');
 add_shortcode('home_slider' , 'displayHomeSlider');
+add_shortcode('design_article' , 'displayDesignArticle');
 
 // =========================================================
 // THEME SETTINGS [PAGE]
@@ -520,7 +522,8 @@ $section_home_page_ctrls = new ControlsCollection(array(
 	new Textarea('Copyright text'),
 	new Checkbox('Enable slide show', array('name' => 'home_slideshow')),
 	new Text('Slide show speed (seconds)', array('name' => 'home_slideshow_speed')),
-	new Text('Slides count', array('name' => 'home_slides_count'))
+	new Text('Slides count', array('name' => 'home_slides_count')),
+	new Text('Slider title')
 	));
 
 $section_gallery_page_ctrls = new ControlsCollection(array(
@@ -563,6 +566,20 @@ $additional_options = new MetaBox('page', 'Additional options', $additional_opti
 // PHOTO POST TYPE
 // =========================================================
 $photo = new PostType('photo', array('icon_code' => 'f083'));
+
+// =========================================================
+// DESIGN POST TYPE
+// =========================================================
+$photo = new PostType('design', array(
+	'label'     => 'Design articles', 
+	'icon_code' => 'f043',
+	'supports'  => array('title', 'editor', 'thumbnail', 'excerpt')));
+// =========================================================
+// DESIGN METABOX
+// =========================================================
+$additional_design_ctrls = new ControlsCollection(array(
+	new Select('PicturePosition', array('name' => 'pic_position', 'options' => array('Top', 'Bottom')))));
+$additional_design = new MetaBox('design', 'Additional options', $additional_design_ctrls);
 // =========================================================
 // SLIDE POST TYPE
 // =========================================================
@@ -743,7 +760,7 @@ function getPhotos($page = 1)
 				$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($photo->ID), 'full');
 				$url   = $thumb['0'];
 				$out  .= sprintf(
-					'<li><figure><a href="%s" class="fancybox" rel="group">%s</a></figure></li>',
+					'<li><figure><a href="%s" class="fancybox" data-fancybox-group="group">%s</a></figure></li>',
 					$url,
 					get_the_post_thumbnail($photo->ID, 'gallery-photo'));				
 			} 
@@ -881,7 +898,7 @@ function getLifestyleTerms()
 								<li>
 									<figure>
 										<?php echo get_the_post_thumbnail($li->ID, 'life-image'); ?>
-										<a href="<?php echo $url; ?>" rel="<?php echo $term->slug.$term->term_id; ?>" class="more fancybox"><span>more</span></a>			
+										<a href="<?php echo $url; ?>" data-fancybox-group="<?php echo $term->slug.$term->term_id; ?>" class="more fancybox"><span>more</span></a>			
 									</figure>
 								</li>
 								<?php	
@@ -1065,4 +1082,91 @@ function displayHomeSlider($atts, $content)
 	    return $var;
 	}
 	return '';
+}
+
+/**
+ * Display home type slider [SHORTCODE]
+ * @return string --- html code
+ */
+function displayDesignArticle($atts, $content)
+{	
+	if(!is_array($atts)) $atts = array();
+	$defaults = array(
+		'posts_per_page'   => 3,
+		'offset'           => 0,		
+		'orderby'          => 'post_date',
+		'order'            => 'DESC',
+		'include'          => '',
+		'exclude'          => '',
+		'meta_key'         => '',
+		'meta_value'       => '',
+		'post_type'        => 'design',
+		'post_mime_type'   => '',
+		'post_parent'      => '',
+		'post_status'      => 'publish',
+		'suppress_filters' => true);
+	$args     = array_merge($defaults, $atts);
+	$articles = get_posts($args);
+	if(!$articles) return '';
+	ob_start();
+	?>
+	<div class="image-module-design">
+	<ul>
+	<?
+	foreach ($articles as $article) 
+	{
+		$position = get_post_meta($article->ID, 'design_pic_position', true); 
+		if(strtolower($position) == 'top')
+		{
+			?>
+			<li>
+				<article>
+					<figure>
+						<?php if(has_post_thumbnail($article->ID)) echo get_the_post_thumbnail($article->ID, 'design-article-image'); ?>						
+					</figure>
+					<div class="entry">
+						<header>
+							<h2>
+								<a href="<?php echo get_permalink($article->ID); ?>"><?php echo $article->post_title; ?></a>
+							</h2>
+						</header>
+						<p>
+							<?php echo $article->post_excerpt; ?>
+						</p>
+					</div>
+				</article>
+			</li>
+			<?php	
+		}
+		else
+		{
+			?>
+			<li class="bottom-img">
+				<article>
+					<div class="entry">
+						<header>
+							<h2>
+								<a href="<?php echo get_permalink($article->ID); ?>"><?php echo $article->post_title; ?></a>
+							</h2>
+						</header>
+						<p>
+							<?php echo $article->post_excerpt; ?>
+						</p>
+					</div>
+					<figure>
+						<?php if(has_post_thumbnail($article->ID)) echo get_the_post_thumbnail($article->ID, 'design-article-image'); ?>
+					</figure>				
+				</article>
+			</li>
+			<?php
+		}
+		
+	}
+	?>
+	</ul>
+	</div>
+	<?php
+	$var = ob_get_contents();
+    ob_end_clean();
+    return $var;
 }

@@ -30,8 +30,7 @@ jQuery(window).load(function(){
 	if(defaults[0].theme_settings_home_slideshow == 'on') home_slideshow = true;
 
 	design_slideshow_speed = parseInt(defaults[0].theme_settings_design_slideshow_speed)*1000;
-	home_slideshow_speed   = parseInt(defaults[0].theme_settings_home_slideshow_speed)*1000;
-	console.log(design_slideshow, home_slideshow, design_slideshow_speed, home_slideshow_speed, defaults[0].theme_settings_design_slideshow);
+	home_slideshow_speed   = parseInt(defaults[0].theme_settings_home_slideshow_speed)*1000;	
 	// =========================================================
 	// FLEXSLIDER
 	// =========================================================
@@ -84,8 +83,7 @@ function newInvite(){
             method : 'apprequests',
             message: 'Come on man checkout my applications. visit http://ithinkdiff.net',
      },
-     function(receiverUserIds) {
-              console.log("IDS : " + receiverUserIds.request_ids);
+     function(receiverUserIds) {             
             }
      );	             
 }
