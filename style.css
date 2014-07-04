@@ -1,9 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:300,300italic,400,400italic,500,500italic,700,700italic,900,900italic);
 @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,400italic,700,700italic);
 @import url("css/style-theme.css");
-{
-  font-family:'Roboto Condensed', sans-serif;
-}
 html, body
 {
   width:100%;
@@ -676,7 +673,7 @@ section#content-section
   width:911px;
   min-height:200px;
 	margin:0 auto;
-	padding:0px 0px 54px 0px;
+	padding:0px 0px 66px 0px;
 	border-left:1px solid #54514f;
 	border-right:1px solid #54514f;
 	box-sizing:border-box;
@@ -830,10 +827,11 @@ div.slider-home nav li a
 }
 
 div.slider-home nav li a:hover,
-div.slider-home nav li.active a
+div.slider-home nav li.flex-active a
 {
   border:1px solid #4a4746;
 	background:#4a4746;
+	position:relative;
 }
 
 div.slider-home p
@@ -1123,7 +1121,7 @@ div.slider-design aside a.zoom
 	text-indent:-9999em;
 	position:absolute;
 	bottom:12px;
-	right:10px;
+	left:369px;
 	z-index:2;
 }
 
@@ -1176,7 +1174,7 @@ div.slider-design nav li a
 }
 
 div.slider-design nav li a:hover,
-div.slider-design nav li.active a
+div.slider-design nav li.flex-active a
 {
   border:1px solid #d7a11e;
 	background:none;
@@ -1217,6 +1215,7 @@ div.image-module-design ul li
   -moz-border-radius:2px;
   border-radius:2px;
 	vertical-align:top;
+	position:relative;
 }
 
 div.image-module-design article
@@ -1498,6 +1497,7 @@ div.gallery-post
   width:700px;
 	padding:7px 0px 0px 0px;
 	float:right;
+	position:relative;
 }
 
 ul.list-images
@@ -1505,17 +1505,23 @@ ul.list-images
   width:720px;
   padding:0px 0px 0px 0px;
 	list-style:none;
+	position:relative;
 }
 
 ul.list-images li
 {
+  width:220px;
+	height:206px;
   padding:0px 20px 50px 0px;
 	float:left;
+	position:relative;
+	overflow:hidden;
 }
 
 ul.list-images img
 {
   display:block;
+	position:relative;
 }
 
 nav.pagenav-gallery
@@ -1814,6 +1820,306 @@ div.btn-floorplans a.btn-share span:before
 /* ------- end floorplans page ------- */
 
 
+/* ------- contact-post ------- */
+article.contact-post
+{
+  padding:37px 24px 0px 24px;
+}
+
+article.contact-post header.tit-page
+{
+  width:137px;
+	padding:7px 0px 0px 0px;
+	float:left;
+}
+
+article.contact-post div.entry
+{
+  width:724px;
+	padding:0px 0px 0px 0px;
+	float:right;
+}
+
+article.contact-post h2
+{
+  padding:0px 0px 19px 0px;
+  font-size:24px;
+	font-weight:300;
+	line-height:34px;
+	color:#4a4746;
+}
+
+article.contact-post h3
+{
+  padding:1px 0px 18px 0px;
+  font-size:17px;
+	font-weight:700;
+	line-height:21px;
+	text-transform:uppercase;
+	color:#54514f;
+}
+
+article.contact-post p
+{
+  padding:0px 0px 20px 0px;
+}
+
+article.contact-post footer
+{
+  width:827px;
+	margin:22px 0px 0px 0px;
+  padding:11px 12px 15px 22px;
+	background:#d2b46b;
+	font-size:17px;
+	font-style:italic;
+	line-height:21px;
+	color:#ffffff;
+	position:relative;
+	left:-137px;
+}
+
+article.contact-post footer p
+{
+  padding:0px 0px 0px 0px;
+}
+
+div.info-contact
+{
+  padding:50px 0px 46px 0px;
+}
+
+div.info-contact div.column
+{
+  width:400px;
+	padding:0px 15px 0px 0px;
+	float:right;
+}
+
+div.info-contact div.column:first-child
+{
+  width:270px;
+	float:left;
+}
+
+div.info-contact p
+{
+  padding:0px 0px 7px 31px;
+	position:relative;
+}
+
+div.info-contact p:before
+{
+  display:block;
+	content:"";
+	position:absolute;
+	top:3px;
+	left:0px;
+}
+
+div.info-contact p.address:before
+{
+  width:11px;
+	height:16px;
+	background:-116px 0px url(images/sprite.png) no-repeat;
+	left:3px;
+}
+
+div.info-contact p.phone:before
+{
+  width:17px;
+	height:16px;
+	background:-99px -17px url(images/sprite.png) no-repeat;
+}
+
+div.info-contact p.fax:before
+{
+  width:16px;
+	height:14px;
+	background:-99px -34px url(images/sprite.png) no-repeat;
+}
+
+div.info-contact p.email:before
+{
+  width:16px;
+	height:16px;
+	background:-99px 0px url(images/sprite.png) no-repeat;
+}
+
+div.form-contact
+{
+  width:709px;
+  padding:27px 39px 25px 161px;
+	background:0px 0px url(images/bg_img_01.gif) repeat;
+	position:relative;
+	left:-161px;
+}
+
+div.form-contact div.left
+{
+  width:340px;
+	padding:0px 0px 10px 0px;
+}
+
+div.form-contact div.right
+{
+  width:369px;
+	padding:0px 0px 10px 0px;
+}
+
+div.form-contact p
+{
+  padding:15px 0px 0px 0px;
+	position:relative;
+	clear:both;
+}
+
+div.form-contact label
+{
+  width:94px;
+  height:23px;
+  padding:8px 10px 0px 10px;
+	display:block;
+	float:left;
+	border:1px solid #8a7f75;
+	background:#ffffff;
+	font-family:'Roboto Condensed', sans-serif;
+	font-size:13px;
+	line-height:13px;
+	font-weight:400;
+	text-transform:uppercase;
+	color:#4a4746;
+	position:relative;
+	z-index:2;
+}
+
+div.form-contact p.textarea label
+{
+  position:absolute;
+	top:15px;
+	left:0px;
+}
+
+div.form-contact span.wpcf7-form-control-wrap 
+{
+  width:198px;
+  height:31px;
+  padding:0px 0px 0px 0px;
+	display:block;
+	float:left;
+	border:1px solid #8a7f75;
+	background:#ffffff;
+	position:relative;
+	left:-1px;
+	z-index:1;
+}
+
+div.form-contact p.textarea span.wpcf7-form-control-wrap
+{
+  width:367px;
+  height:175px;
+	float:none;
+	left:0px;
+}
+
+div.form-contact span.wpcf7-form-control-wrap input,
+div.form-contact span.wpcf7-form-control-wrap textarea
+{
+  width:178px;
+  height:31px;
+	padding:0px 10px 0px 10px;
+	float:left;
+	border:none;
+	background:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:31px;
+	color:#4a4746;
+}
+
+div.form-contact span.wpcf7-form-control-wrap textarea
+{
+  width:347px;
+  height:145px;
+	padding-top:30px;
+}
+
+div.form-contact span.wpcf7-not-valid-tip
+{
+  width:178px;
+  height:31px;
+	padding:0px 10px 0px 10px;
+  font-family:'Roboto Condensed', sans-serif;
+	font-size:13px;
+	font-weight:400;
+	line-height:30px;
+	text-transform:none;
+	color:#990000;
+  position:absolute;
+  top:0px;
+  left:0px;
+}
+
+div.form-contact div.submit
+{
+  padding:24px 0px 0px 0px;
+	position:relative;
+}
+
+div.form-contact div.submit span
+{
+  height:33px;
+	display:block;
+	float:left;
+	border:1px solid #8a7f75;
+	background:#d2b46b;
+  position:relative;
+}
+
+div.form-contact div.submit span:before
+{
+  width:8px;
+	height:13px;
+	margin-top:-7px;
+	display:block;
+	content:"";
+	background:-117px -17px url(images/sprite.png) no-repeat;
+	position:absolute;
+	top:50%;
+	right:31px;
+	z-index:1;
+}
+
+div.form-contact div.submit input
+{
+	height:33px;
+	padding:0px 50px 0px 30px;
+	display:block;
+	border:none;
+	background:none;
+	font-family:'Roboto Condensed', sans-serif;
+  font-size:17px;
+	font-weight:700;
+	line-height:33px;
+	text-transform:uppercase;
+	color:#6e6053;
+	cursor:pointer;
+	position:relative;
+	z-index:2;
+}
+
+div.form-contact div.wpcf7-response-output
+{
+  margin:9px 24px 0px 0px;
+	clear:both;
+}
+
+div.form-contact img.ajax-loader
+{
+  display:none;
+}
+/* ------- end contact-post ------- */
+
+
 /* ------- page ------- */
 article.page-post
 {
@@ -1863,116 +2169,19 @@ article.page-post footer p
 /* ------- end page ------- */
 /* ---------- end CONTENT ---------- */
 
-
-.jq-checkbox,
-.jq-radio 
+ul.flex-direction-nav
 {
-	width:11px;
-	height:11px;
-	margin:0px 0px 0px -5px;
-	display:block;
-	background:-60px -48px url(images/sprite.png) no-repeat;
-	cursor:pointer;
-	position: absolute;
-	bottom:-16px;
-	left:50%;
+  display:none;
 }
 
-.jq-checkbox.checked,
-.jq-radio.checked
+div.widget-footer-form div.fild-form, 
+div.widget-footer-form div.submit input, 
+div.slider-home nav li a, 
+div.slider-home nav li a:hover,
+div.slider-home nav li.flex-active a,
+div.slider-design nav li a, 
+div.image-module-design ul li, 
+div.image-module-design img
 {
-	background:-71px -48px url(images/sprite.png) no-repeat;
-}
-
-.jq-selectbox 
-{
-	vertical-align:middle;
-	cursor:pointer;
-}
-
-.jq-selectbox__select
-{
-	width:179px;
-	height:25px;
-	padding:5px 48px 5px 13px;
-	border:1px solid #535152;
-	font-family:'Ledger', serif;
-	font-size:12px;
-	font-weight:400;
-	line-height:25px;
-	color:#636062;
-	position:relative;
-}
-
-.jq-selectbox__select-text
-{
-	height:100%;
-	position:relative;
-	overflow:hidden;
-}
-
-.jq-selectbox__trigger
-{
-	width:47px;
-	height:35px;
-	border-left:1px solid #535152;
-	position:absolute;
-	top:0px;
-	right:0px;
-}
-
-.jq-selectbox__trigger-arrow
-{
-	width:16px;
-	height:9px;
-	margin:-4px 0px 0px -8px;
-	background:-82px -30px url(images/sprite.png) no-repeat;
-	position:absolute;
-	top:50%;
-	left:50%;
-}
-
-.jq-selectbox__dropdown
-{
-	width:100%;
-	border:1px solid #535152;
-	box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
-	background:#2a2327;
-	font-family:'Ledger', serif;
-	font-size:12px;
-	font-weight:400;
-	line-height:18px;
-	color:#636062;
-	top:35px;
-}
-
-.jq-selectbox__dropdown
-{
-	max-height:200px !important;
-}
-
-.jq-selectbox ul
-{
-	padding:0px;
-	list-style:none;
-}
-
-.jq-selectbox li 
-{
-	padding:8px 10px 9px;
-}
-
-.jq-selectbox li.selected,
-.jq-selectbox li:hover
-{
-	background:#636062;
-	color:#FFF;
-}
-
-
-{
-	/* behavior:url(/wp-content/themes/jterealestate/js/PIE.htc); */
-	behavior:url(js/PIE.htc);
+	behavior:url(/wp-content/themes/vueson48th/js/PIE.htc);
 }
