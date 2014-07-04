@@ -537,9 +537,18 @@ $section_design_page_ctrls = new ControlsCollection(array(
 	new Textarea('slogan')
 	));
 
+$section_contact_page_ctrls = new ControlsCollection(array(
+	new Textarea('Address'),
+	new Text('Phone', array('name' => 'contact_phone')),
+	new Text('Fax'),
+	new Text('Email', array('input_type' => 'email')),
+	new Image('Map')
+	));
+
 $theme_settings->addControls('Home page', $section_home_page_ctrls);
 $theme_settings->addControls('Gallery page', $section_gallery_page_ctrls);
 $theme_settings->addControls('Design page', $section_design_page_ctrls);
+$theme_settings->addControls('Contact page', $section_contact_page_ctrls);
 $theme_settings->initPage();
 
 $GLOBALS['theme_settings'] = $theme_settings;
