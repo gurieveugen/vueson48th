@@ -542,7 +542,7 @@ $section_contact_page_ctrls = new ControlsCollection(array(
 	new Text('Phone', array('name' => 'contact_phone')),
 	new Text('Fax'),
 	new Text('Email', array('input_type' => 'email')),
-	new Image('Map')
+	new Text('Map shortcode')
 	));
 
 $theme_settings->addControls('Home page', $section_home_page_ctrls);

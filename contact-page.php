@@ -27,7 +27,8 @@ get_header(); ?>
 				</p>
 			</div>
 			<div class="column">
-				<img src="<?php echo $theme_settings_map; ?>" alt="map" width="400" height="223" class="alignnone size-full wp-image-1013" />
+				<?php echo do_shortcode($theme_settings_map_shortcode); ?>
+				<!-- <img src="<?php echo $theme_settings_map; ?>" alt="map" width="400" height="223" class="alignnone size-full wp-image-1013" /> -->
 			</div>
 		</div>
 		<div class="form-contact cf">
