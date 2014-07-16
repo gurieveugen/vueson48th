@@ -9,6 +9,16 @@ jQuery(document).ready(function(){
 		    }
 		  }
 	});	
+	jQuery(".various").fancybox({		
+		fitToView	: false,
+		width		: '590px',
+		height		: '684px',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none',
+		wrapCSS     : 'register-lightbox'
+	});
 	// =========================================================
 	// FLEXSLIDER
 	// =========================================================
@@ -18,7 +28,12 @@ jQuery(document).ready(function(){
 		jQuery('#' + id).flexslider(href);
 		e.preventDefault();
 	});
+	// =========================================================
+	// STYLER
+	// =========================================================
+	jQuery('input, select').styler();
 });
+
 
 jQuery(window).load(function(){
 	var design_slideshow       = false;

@@ -9,7 +9,7 @@ extract($options);
   <footer id="footer" class="cf">
     <aside class="sidebar-footer cf">
 		  <div class="widget-footer-pic">
-			  <p><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_01.png" alt=" "></a></p>
+			  <p><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_01.png" alt=" "></p>
 			</div>
 
 			<div class="widget-footer-form">
@@ -28,8 +28,11 @@ extract($options);
 			</div>
 		</div>
   </footer>
-  <!-- end footer -->
+  <!-- end footer -->  
 </div>
+	<div id="inline" style="display:none;">
+		<?php echo do_shortcode('[contact-form-7 id="1024" title="Register"]'); ?>
+	</div>
 	<?php wp_footer(); ?>
 	</body>
 </html>

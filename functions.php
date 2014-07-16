@@ -503,6 +503,7 @@ add_filter('image_size_names_choose', 'imageSizeNamesChose');
 add_shortcode('design_slider' , 'displayDesignSlider');
 add_shortcode('home_slider' , 'displayHomeSlider');
 add_shortcode('design_article' , 'displayDesignArticle');
+add_action('wpcf7_before_send_mail', 'cf7');
 
 // =========================================================
 // THEME SETTINGS [PAGE]
@@ -633,6 +634,8 @@ function scriptsMethod()
 	wp_enqueue_script('fancybox-media', TDU.'/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6', array('jquery'));
 	wp_enqueue_script('fancybox-thumbs', TDU.'/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7', array('jquery'));
 	wp_enqueue_script('facebook', 'http://connect.facebook.net/en_US/all.js', array('jquery'));
+	wp_enqueue_script('styler', TDU.'/js/jquery.formstyler.js', array('jquery'));
+	
 
 	wp_localize_script('main', 'defaults', array($GLOBALS['theme_settings']->getAll()));
 }
@@ -1178,4 +1181,13 @@ function displayDesignArticle($atts, $content)
 	$var = ob_get_contents();
     ob_end_clean();
     return $var;
+}
+
+function cf7( $cf7 )
+{
+	if($cf7->id == 71)
+	{		
+		$email = $_POST['email-field'];
+		wp_mail($email, 'Download our Brochure', 'http://vueson48th.com/wp-content/uploads/2014/07/brochure_sm.pdf');
+	}	
 }
