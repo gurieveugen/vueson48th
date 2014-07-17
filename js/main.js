@@ -42,7 +42,6 @@ jQuery(document).ready(function(){
 	}
 });
 
-
 jQuery(window).load(function(){
 	var design_slideshow         = false;
 	var design_slideshow_speed   = 1;
@@ -89,7 +88,11 @@ jQuery(window).load(function(){
 		slideshow: home_slideshow,
 		slideshowSpeed: home_slideshow_speed,
 		animation: "fade",
-		manualControls: ".slider-design-nav ol li"
+		manualControls: ".slider-design-nav ol li",
+		after: function(){
+	        var title = jQuery('.slider-home aside ul.slides li.flex-active-slide').data('title');
+	        jQuery('.slider-home .bottom-slider p').text(title);
+    	}
 	});	
 	// =========================================================
 	// FACEBOOK
@@ -158,9 +161,9 @@ function setInfoWindow(map, marker, info_window)
   	google.maps.event.addListener(marker, 'mouseover', function() {
   	    info_window.open(map, marker);
   	});
-  	// google.maps.event.addListener(marker, 'mouseout', function() {
-  	//     info_window.close();
-  	// });
+  	google.maps.event.addListener(marker, 'mouseout', function() {
+  	    info_window.close();
+  	});
 }
 
 /**
@@ -233,4 +236,48 @@ function newInvite(){
      function(receiverUserIds) {             
             }
      );	             
+}
+
+/**
+ * JUST FOR FUCKING IE8
+ */
+if (!Object.keys) {
+  Object.keys = (function () {
+    'use strict';
+    var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
+        dontEnums = [
+          'toString',
+          'toLocaleString',
+          'valueOf',
+          'hasOwnProperty',
+          'isPrototypeOf',
+          'propertyIsEnumerable',
+          'constructor'
+        ],
+        dontEnumsLength = dontEnums.length;
+
+    return function (obj) {
+      if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+        throw new TypeError('Object.keys called on non-object');
+      }
+
+      var result = [], prop, i;
+
+      for (prop in obj) {
+        if (hasOwnProperty.call(obj, prop)) {
+          result.push(prop);
+        }
+      }
+
+      if (hasDontEnumBug) {
+        for (i = 0; i < dontEnumsLength; i++) {
+          if (hasOwnProperty.call(obj, dontEnums[i])) {
+            result.push(dontEnums[i]);
+          }
+        }
+      }
+      return result;
+    };
+  }());
 }

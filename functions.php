@@ -1062,8 +1062,9 @@ function displayDesignSlider($atts)
  * Display home type slider [SHORTCODE]
  * @return string --- html code
  */
-function displayHomeSlider($atts, $content)
+function displayHomeSlider($atts)
 {
+	$content = '';
 	$defaults = array(
 		'posts_per_page'   => -1,
 		'offset'           => 0,
@@ -1106,7 +1107,7 @@ function displayHomeSlider($atts, $content)
 				$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($slide->ID), 'full');
 				$url   = $thumb['0'];			
 				?>
-				<li>
+				<li data-title="<?php echo $slide->post_title; ?>">
 					<figure>
 						<a href="<?php echo $url; ?>" class="fancybox">
 							<?php echo get_the_post_thumbnail($slide->ID, 'slider-front-page'); ?>
@@ -1116,6 +1117,7 @@ function displayHomeSlider($atts, $content)
 				<?php
 				$index++;
 				$nav.= sprintf('<li> <a href="#">%s</a> </li>', $index);
+				$content = $content == '' ? $slide->post_title : $content;
 			}
 			
 		}
