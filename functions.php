@@ -499,6 +499,7 @@ add_image_size('design-article-image', 275, 220, true);
 add_image_size('gallery-header-image', 861, 9999, true);
 add_image_size('slider-front-page', 861, 331, true);
 add_image_size('slider-design-page', 418, 279, true);
+add_image_size('location-img', 509, 357, true);
 add_filter('image_size_names_choose', 'imageSizeNamesChose');
 add_shortcode('design_slider' , 'displayDesignSlider');
 add_shortcode('home_slider' , 'displayHomeSlider');
@@ -508,48 +509,66 @@ add_action('wpcf7_before_send_mail', 'cf7');
 // =========================================================
 // THEME SETTINGS [PAGE]
 // =========================================================
-$theme_settings = new Page('Theme settings', array(
-	'icon_code' => 'f085'
-	));
+$theme_settings = new Page('Theme settings', 
+	array(
+		'icon_code' => 'f085'
+	)
+);
 
-$section_home_page_ctrls = new ControlsCollection(array(	
-	new Textarea('Title'),
-	new Textarea('Sub title'),
-	new Text('Facebook link'),
-	new Text('Phone'),
-	new Text('Register for a priority reservation now!', array('name' => 'priority_reservation')),	
-	new Text('Site by'),
-	new Text('Site by url'),		
-	new Textarea('Copyright text'),
-	new Checkbox('Enable slide show', array('name' => 'home_slideshow')),
-	new Text('Slide show speed (seconds)', array('name' => 'home_slideshow_speed')),
-	new Text('Slides count', array('name' => 'home_slides_count')),
-	new Text('Slider title')
-	));
+$section_home_page_ctrls = new ControlsCollection(
+	array(	
+		new Textarea('Title'),
+		new Textarea('Sub title'),
+		new Text('Facebook link'),
+		new Text('Phone'),
+		new Text('Register for a priority reservation now!', array('name' => 'priority_reservation')),	
+		new Text('Site by'),
+		new Text('Site by url'),		
+		new Textarea('Copyright text'),
+		new Checkbox('Enable slide show', array('name' => 'home_slideshow')),
+		new Text('Slide show speed (seconds)', array('name' => 'home_slideshow_speed')),
+		new Text('Slides count', array('name' => 'home_slides_count')),
+		new Text('Slider title')
+	)
+);
 
-$section_gallery_page_ctrls = new ControlsCollection(array(
-	new Text('Photos per page')
-	));
+$section_gallery_page_ctrls = new ControlsCollection(
+	array(
+		new Text('Photos per page')
+	)
+);
 
-$section_design_page_ctrls = new ControlsCollection(array(
-	new Checkbox('Enable slide show', array('name' => 'design_slideshow')),
-	new Text('Slide show speed (seconds)', array('name' => 'design_slideshow_speed')),
-	new Text('Slides count', array('name' => 'design_slides_count')),
-	new Textarea('slogan')
-	));
+$section_design_page_ctrls = new ControlsCollection(
+	array(
+		new Checkbox('Enable slide show', array('name' => 'design_slideshow')),
+		new Text('Slide show speed (seconds)', array('name' => 'design_slideshow_speed')),
+		new Text('Slides count', array('name' => 'design_slides_count')),
+		new Textarea('slogan')
+	)
+);
 
-$section_contact_page_ctrls = new ControlsCollection(array(
-	new Textarea('Address'),
-	new Text('Phone', array('name' => 'contact_phone')),
-	new Text('Fax'),
-	new Text('Email', array('input_type' => 'email')),
-	new Text('Map shortcode')
-	));
+$section_location_page_ctrls = new ControlsCollection(
+	array(
+		new Checkbox('Enable slide show', array('name' => 'location_slideshow')),
+		new Text('Slide show speed (seconds)', array('name' => 'location_slideshow_speed'))
+	)
+);
+
+$section_contact_page_ctrls = new ControlsCollection(
+	array(
+		new Textarea('Address'),
+		new Text('Phone', array('name' => 'contact_phone')),
+		new Text('Fax'),
+		new Text('Email', array('input_type' => 'email')),
+		new Text('Map shortcode')
+	)
+);
 
 $theme_settings->addControls('Home page', $section_home_page_ctrls);
 $theme_settings->addControls('Gallery page', $section_gallery_page_ctrls);
 $theme_settings->addControls('Design page', $section_design_page_ctrls);
 $theme_settings->addControls('Contact page', $section_contact_page_ctrls);
+$theme_settings->addControls('Location page', $section_location_page_ctrls);
 $theme_settings->initPage();
 
 $GLOBALS['theme_settings'] = $theme_settings;
@@ -557,9 +576,11 @@ $GLOBALS['theme_settings'] = $theme_settings;
 // =========================================================
 // ADDITIONAL INFO [MATA BOX]
 // =========================================================
-$additional_options_ctrls = new ControlsCollection(array(
-	new Textarea('Text on the picture', array('name' => 'text_pic'))
-	));
+$additional_options_ctrls = new ControlsCollection(
+	array(
+		new Textarea('Text on the picture', array('name' => 'text_pic'))
+	)
+);
 $additional_options = new MetaBox('page', 'Additional options', $additional_options_ctrls);
 
 // =========================================================
@@ -580,15 +601,21 @@ $photo = new PostType('photo', array('icon_code' => 'f083'));
 // =========================================================
 // DESIGN POST TYPE
 // =========================================================
-$photo = new PostType('design', array(
-	'label'     => 'Design articles', 
-	'icon_code' => 'f043',
-	'supports'  => array('title', 'editor', 'thumbnail', 'excerpt')));
+$photo = new PostType('design', 
+	array(
+		'label'     => 'Design articles', 
+		'icon_code' => 'f043',
+		'supports'  => array('title', 'editor', 'thumbnail', 'excerpt')
+	)
+);
 // =========================================================
 // DESIGN METABOX
 // =========================================================
-$additional_design_ctrls = new ControlsCollection(array(
-	new Select('PicturePosition', array('name' => 'pic_position', 'options' => array('Top', 'Bottom')))));
+$additional_design_ctrls = new ControlsCollection(
+	array(
+		new Select('PicturePosition', array('name' => 'pic_position', 'options' => array('Top', 'Bottom')))
+	)
+);
 $additional_design = new MetaBox('design', 'Additional options', $additional_design_ctrls);
 // =========================================================
 // SLIDE POST TYPE
@@ -612,10 +639,29 @@ $lifestyle = new Taxonomy('lifeimage', 'Lifestyle');
 $gallery_controls = new ControlsCollection(array(
 	new Textarea('Text on the picture', array('name' => 'text_pic')),
 	new Image('Header image')
-	));
+));
 $gallery = new Taxonomy('photo', 'Gallery', array('label' => 'Galleries'), $gallery_controls);
 $GLOBALS['gallery_tax'] = $gallery;
+// =========================================================
+// LOCATION
+// =========================================================
+$loc_group_controls = new ControlsCollection(
+	array(
+		new Textarea('Address'),
+		new Image('Icon')
+	)
+);
 
+$location           = new PostType('location', array('icon_code' => 'f041'));
+$loc_group          = new Taxonomy('location', 'Location Group', array('label' => 'Location groups'), $loc_group_controls);
+$GLOBALS['loc_group'] = $loc_group;
+
+$location_options_ctrls = new ControlsCollection(
+	array(
+		new Image('Large image')
+	)
+);
+$additional_options_location = new MetaBox('location', 'Additional options', $location_options_ctrls);
 
 
 function scriptsMethod() 
@@ -635,7 +681,8 @@ function scriptsMethod()
 	wp_enqueue_script('fancybox-thumbs', TDU.'/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7', array('jquery'));
 	wp_enqueue_script('facebook', 'http://connect.facebook.net/en_US/all.js', array('jquery'));
 	wp_enqueue_script('styler', TDU.'/js/jquery.formstyler.js', array('jquery'));
-	
+	wp_enqueue_script('google-map', 'https://maps.googleapis.com/maps/api/js?v=3.exp');	
+	wp_enqueue_script('google-map-utility', 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js');	
 
 	wp_localize_script('main', 'defaults', array($GLOBALS['theme_settings']->getAll()));
 }
