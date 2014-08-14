@@ -638,7 +638,8 @@ $lifestyle = new Taxonomy('lifeimage', 'Lifestyle');
 // =========================================================
 $gallery_controls = new ControlsCollection(array(
 	new Textarea('Text on the picture', array('name' => 'text_pic')),
-	new Image('Header image')
+	new Image('Header image'),
+	new Text('Order')
 ));
 $gallery = new Taxonomy('photo', 'Gallery', array('label' => 'Galleries'), $gallery_controls);
 $GLOBALS['gallery_tax'] = $gallery;
@@ -730,7 +731,7 @@ function fillArray($fields, $arr)
 function getGalleryTerms()
 {
 	$taxonomies = array('gallery');
-
+	$li   = array();
 	$args = array(
 	    'orderby'       => 'name', 
 	    'order'         => 'ASC',
@@ -750,7 +751,7 @@ function getGalleryTerms()
 	    'offset'        => '', 
 	    'search'        => '', 
 	    'cache_domain'  => 'core'); 
-	$terms = get_terms($taxonomies, $args);
+	$terms = $GLOBALS['gallery_tax']->getTerms();
 	$out   = '';
 	$qo    = get_queried_object();
 
@@ -761,14 +762,14 @@ function getGalleryTerms()
 		{
 			if($qo->term_id == $term->term_id)
 			{
-				$out.= sprintf(
+				$li[$term->meta['photo_order']] = sprintf(
 					'<li><span>%1$s (%2$s)</span></li>', 					
 					$term->name, 
 					$term->count);	
 			}
 			else
 			{
-				$out.= sprintf(
+				$li[$term->meta['photo_order']] = sprintf(
 					'<li><a href="%1$s">%2$s (%3$s)</a></li>', 
 					get_term_link($term, $term->taxonomy), 
 					$term->name, 
@@ -776,6 +777,8 @@ function getGalleryTerms()
 			}
 						
 		}
+		ksort($li);
+		$out.= implode(' ', $li);
 		$out.= '</ul>';
 	}
 	return $out;
@@ -789,13 +792,13 @@ function getPhotos($page = 1)
 {		
 	$options = $GLOBALS['theme_settings']->getAll();
 	extract($options);
+	$qo = get_queried_object();
 	
 	$page--;
 	$offset = intval($theme_settings_photos_per_page)*$page;
 	$args = array(
 		'posts_per_page'   => $theme_settings_photos_per_page,
-		'offset'           => $offset,
-		'category'         => '',
+		'offset'           => $offset,		
 		'orderby'          => 'post_date',
 		'order'            => 'DESC',
 		'include'          => '',
@@ -806,7 +809,15 @@ function getPhotos($page = 1)
 		'post_mime_type'   => '',
 		'post_parent'      => '',
 		'post_status'      => 'publish',
-		'suppress_filters' => true );
+		'suppress_filters' => true,
+		'tax_query'        => array(
+			array(
+				'taxonomy' => 'gallery',
+				'field'    => 'id',
+				'terms'    => array($qo->term_id)
+			)
+		)
+	);
 	$photos = get_posts($args);
 	$out    = '';
 	if($photos)
@@ -837,6 +848,7 @@ function getGalleryNavs($page = 1)
 
 	$qo = get_queried_object();
 	$pages = ceil($qo->count/$theme_settings_photos_per_page);
+	if($pages <= 1) return '';
 	$out = '';
 
 	if($pages)
@@ -922,7 +934,9 @@ function getLifestyleTerms()
 			$args = array(
 				'posts_per_page'   => -1,
 				'offset'           => 0,
-				'lifestyle'        => $term->term_ID,
+                'taxonomy'         => 'lifestyle',
+                'term'             => $term->slug,
+				/*'lifestyle'        => $term->term_id,*/
 				'orderby'          => 'post_date',
 				'order'            => 'DESC',
 				'include'          => '',
@@ -934,7 +948,7 @@ function getLifestyleTerms()
 				'post_parent'      => '',
 				'post_status'      => 'publish',
 				'suppress_filters' => true);
-			$lifeimages = get_posts($args);			
+			$lifeimages = get_posts($args);            	
 			?>
 			<article class="lifestyle-post cf">
 				<header class="tit-lifestyle"><h2><?php echo $term->name; ?></h2></header>

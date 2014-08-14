@@ -82,17 +82,19 @@ class GoogleMap{
 				)
 			);
 
-			$locations = get_posts($args);						
+			$locations = get_posts($args);            						
 			if($locations)
 			{
 				$hide = $first ? '' : 'hide';
 				$first = false;
 				?>
 				<div class="slider-location <?php echo $hide; ?>" id="group-<?php echo $group->term_id; ?>">
+                    <?php if ( count($locations) > 1 ) : ?>
 					<nav class="flexslider-controls-one">
 						<a href="prev" data-id="<?php echo $group->slug.$group->term_id; ?>" class="prev">prev</a>
 						<a href="next" data-id="<?php echo $group->slug.$group->term_id; ?>" class="next">next</a>
 					</nav>
+                    <?php endif; ?>
 
 					<aside class="flexslider-carousel-one" id="<?php echo $group->slug.$group->term_id; ?>">
 						<div class="border-top">&nbsp;</div>
@@ -100,11 +102,20 @@ class GoogleMap{
 						<div class="border-right">&nbsp;</div>
 						<div class="border-bottom">&nbsp;</div>						
 						<ul class="slides">
-							<?php
+							<?php							
 							foreach ($locations as $loc) 
 							{
 								$large = get_post_meta($loc->ID, 'location_large_image', true);
 								if(!has_post_thumbnail($loc->ID)) continue;
+                                
+                                if (empty($large)) {
+                                    $thumb_id = get_post_thumbnail_id($loc->ID);
+                                    $thumb_url = wp_get_attachment_image_src($thumb_id,'full', true);
+                                	$large = $thumb_url[0];
+                                    echo "<!--<pre>";
+                                    var_dump($large);
+                                    echo "</pre>-->";                                    
+                                }                                
 								?>
 								<li>
 									<figure>

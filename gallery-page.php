@@ -17,32 +17,8 @@ get_header(); ?>
 <?php /* The loop */ ?>
 <?php while ( have_posts() ) : the_post(); ?>
 <div class="gallery-page cf">
-	<aside class="sidebar-gallery">
-		<header>
-			<h1>Gallery</h1>
-		</header>
-		<?php echo getGalleryTerms(); ?>		
-	</aside>
-
-  <div class="gallery-post">
-    <ul class="list-images cf">
-		  <li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_16.jpg" alt=" "></a></figure></li>
-			<li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_17.jpg" alt=" "></a></figure></li>
-			<li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_18.jpg" alt=" "></a></figure></li>
-			<li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_19.jpg" alt=" "></a></figure></li>
-			<li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_20.jpg" alt=" "></a></figure></li>
-			<li><figure><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/images/uploade/img_21.jpg" alt=" "></a></figure></li>
-		</ul>
-
-		<nav class="pagenav-gallery cf">
-		  <a href="#" class="prev">prev</a>
-			<span>01</span>
-			<a href="#">02</a>
-			<a href="#">03</a>
-			<a href="#">04</a>
-			<a href="#" class="next">next</a>
-		</nav>
-  </div>
+    <?php the_content(); ?>
+	<?php //echo do_shortcode('[sk_grid_categories menu_background_col_selected="d2b46b" menu_text_col_selected="6e6053" categories_slug="portfolio-cat-1, portfolio-cat-2"]'); ?>
 </div>
 <?php endwhile; ?>
 <?php get_footer(); ?>

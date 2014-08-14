@@ -25,6 +25,7 @@ jQuery(document).ready(function(){
 	jQuery('nav.flexslider-controls a.prev, nav.flexslider-controls a.next, nav.flexslider-controls-one a.prev, nav.flexslider-controls-one a.next').click(function(e){
 		var id   = jQuery(this).data('id');
 		var href = jQuery(this).attr('href');
+		
 		jQuery('#' + id).flexslider(href);
 		e.preventDefault();
 	});	
@@ -40,6 +41,18 @@ jQuery(document).ready(function(){
 	{
 		google.maps.event.addDomListener(window, 'load', initialize);		
 	}
+	// =========================================================
+	// BTN PRINT CLICK
+	// =========================================================
+	jQuery('.btn-print').click(function(e){
+		var url = jQuery(this).attr('href');
+		printwindow = window.open(url, '_blank', 'fullScreen=yes');
+		printwindow.onload = function() {
+			printwindow.focus();
+			printwindow.print();
+		};		
+		e.preventDefault();
+	});
 });
 
 jQuery(window).load(function(){
@@ -75,7 +88,7 @@ jQuery(window).load(function(){
 	    itemMargin: 0,
 	    controlNav: false,
 	    move: 1,
-	    slideshow: true,
+	    slideshow: false,
 	    slideshowSpeed: location_slideshow_speed
 	});
 	jQuery('.slider-design').flexslider({
@@ -142,7 +155,7 @@ function initialize()
 			});
 			window.markers_obj.push(obj);	
 			window.info_windows.push(info);	
-			setToggle(window.markers_obj[index], this.ID);	
+			setToggle(window.markers_obj[index], this.ID);
 			setInfoWindow(gmap, window.markers_obj[index], window.info_windows[index]);			
 			index++;		
 		});			
@@ -180,7 +193,7 @@ function setToggle(marker, ID)
  */
 function toggleBounce(obj, ID) 
 {
-	var is_animation = obj.getAnimation();
+	/*var is_animation = obj.getAnimation();
 	if (window.marker_animation) 
 	{
 		for (var i = 0; i < window.markers_obj.length; i++) 
@@ -198,7 +211,7 @@ function toggleBounce(obj, ID)
 	{
 		obj.setAnimation(google.maps.Animation.BOUNCE);
 		window.marker_animation = true;
-	}
+	}*/
 	hideAll('.slider-location');
 	jQuery('#group-' + ID).removeClass('hide');	
 	jQuery('.flexslider-carousel-one').resize();	
