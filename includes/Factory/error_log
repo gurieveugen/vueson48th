@@ -13,5 +13,5 @@
 [01-Jul-2014 09:37:17 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/vueson48/public_html/wp-includes/class-wp-image-editor-gd.php on line 180
 [01-Jul-2014 09:52:23 UTC] PHP Warning:  file_get_contents(http://www.gurievcreative.com/images/12239431573_6c92e08083_o.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
  in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 219
-[16-Jul-2014 13:25:27 UTC] PHP Warning:  file_get_contents(http://www.gurievcreative.com/images/12239431573_6c92e08083_o.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+[16-Jul-2014 13:25:27 UTC] PHP Warning:  file_get_contents(http://www.gurievcreative.com/images/12239431573_6c92e08083_o.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
  in /home/vueson48/public_html/wp-content/themes/vueson48th/includes/Factory/LoremPosts.php on line 224

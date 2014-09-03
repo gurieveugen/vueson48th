@@ -133,6 +133,7 @@ function initialize()
 		zoom:   15,
 		center: new google.maps.LatLng(first.location.lat, first.location.lng),
 		disableDefaultUI: true,
+		zoomControl: true,
 		animation: google.maps.Animation.DROP
 	};
 

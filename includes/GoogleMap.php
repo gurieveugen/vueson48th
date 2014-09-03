@@ -106,16 +106,16 @@ class GoogleMap{
 							foreach ($locations as $loc) 
 							{
 								$large = get_post_meta($loc->ID, 'location_large_image', true);
-								if(!has_post_thumbnail($loc->ID)) continue;
+								// if(!has_post_thumbnail($loc->ID)) continue;
                                 
-                                if (empty($large)) {
-                                    $thumb_id = get_post_thumbnail_id($loc->ID);
-                                    $thumb_url = wp_get_attachment_image_src($thumb_id,'full', true);
-                                	$large = $thumb_url[0];
-                                    echo "<!--<pre>";
-                                    var_dump($large);
-                                    echo "</pre>-->";                                    
-                                }                                
+        //                         if (empty($large)) {
+        //                             $thumb_id = get_post_thumbnail_id($loc->ID);
+        //                             $thumb_url = wp_get_attachment_image_src($thumb_id,'full', true);
+        //                         	$large = $thumb_url[0];
+        //                             echo "<!--<pre>";
+        //                             var_dump($large);
+        //                             echo "</pre>-->";                                    
+        //                         }                                
 								?>
 								<li>
 									<figure>
