@@ -20,6 +20,9 @@ extract($options);
 
 		<div class="copyright-box cf">
 		  <div class="left">
+		  		<span class="disclaimer">
+		  			All renderings, maps, landscaping, elevations and plans are based on artist conceptions or computer generations for illustration purposes.  They are not to scale and are not guaranteed. The Developer/Builder reserves the right at its sole discretion to make changes or modifications to maps, plans, specifications, materials, features and colors without notice. Product type is subject to availability.
+		  		</span>
 			  <p><?php echo $theme_settings_copyright_text; ?></p>
 			</div>
 
