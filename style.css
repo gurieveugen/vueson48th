@@ -3982,6 +3982,19 @@ div.info-contact p.phone:before
 }
 
 
+div.info-contact p.office:before
+
+{
+
+  width:16px;
+
+	height:14px;
+
+	background:-99px -49px url(images/sprite.png) no-repeat;
+
+}
+
+
 
 div.info-contact p.fax:before
 

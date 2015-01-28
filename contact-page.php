@@ -19,12 +19,11 @@ get_header(); ?>
 				<p class="address">
 					<?php echo $theme_settings_address; ?>
 				</p>
-				<p class="phone">Phone: <?php echo $theme_settings_contact_phone; ?></p>
+				<p class="phone">Toll Free: <?php echo $theme_settings_contact_phone; ?></p>
+				<p class="office">Office:  <?php echo $theme_settings_office_phone; ?></p>
+				<!-- <p class="office">Office:  843-839-5200</p> -->
 				<p class="fax">Fax: <?php echo $theme_settings_fax; ?></p>
-				<p class="email">
-					Email:
-					<a href="mailto:<?php echo $theme_settings_email; ?>"><?php echo $theme_settings_email; ?></a>
-				</p>
+				<p class="email">Email: <a href="mailto:<?php echo $theme_settings_email; ?>"><?php echo $theme_settings_email; ?></a></p>
 			</div>
 			<div class="column">
 				<?php echo do_shortcode($theme_settings_map_shortcode); ?>

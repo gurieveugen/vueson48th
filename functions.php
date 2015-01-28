@@ -558,6 +558,7 @@ $section_contact_page_ctrls = new ControlsCollection(
 	array(
 		new Textarea('Address'),
 		new Text('Phone', array('name' => 'contact_phone')),
+		new Text('Phone office', array('name' => 'office_phone')),
 		new Text('Fax'),
 		new Text('Email', array('input_type' => 'email')),
 		new Text('Map shortcode')
